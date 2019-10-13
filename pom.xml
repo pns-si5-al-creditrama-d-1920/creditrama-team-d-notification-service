@@ -11,12 +11,13 @@
     <groupId>fr.unice.polytech.si5.al.creditrama.teamd</groupId>
     <artifactId>notification-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>notificationservice</name>
-    <description>notificationservice</description>
+    <name>notification-service</name>
+    <description>NotificationService</description>
 
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+        <swagger.version>2.9.2</swagger.version>
     </properties>
 
     <dependencies>
@@ -56,23 +57,23 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-core</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-bean-validators</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.sendgrid/sendgrid-java -->
         <dependency>
