@@ -22,13 +22,14 @@ public class NotificationsController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/testMail")
-    public void testMail() throws IOException {
+    public void testMail(String message) throws IOException {
         Email from = new Email("noreply@creditrama.com");
         String subject = "Creditrama la meilleur banque en ligne";
-        Content content = new Content("text/plain", "Demande de parrainage creditrama de la part d'Alexis Gardin");
+        //Content content = new Content("text/plain", "J'envoie ce mail suite à un évènement consommé dans Kafka, et ça, c'est vraiment fort.");
+        Content content = new Content("text/plain", message);
 
         SendGrid sg = new SendGrid(sendgridkey);
-        Arrays.asList("alexisgardin@gmail.com", "lauraalop7@gmail.com", "hugo.ojvind.francois@gmail.com","nathan.strobbe@gmail.com", "jeremiferre@gmail.com").stream().forEach(email -> {
+        Arrays.asList("alexisgardin@gmail.com", "lauraalop7@gmail.com", "nathan.strobbe@gmail.com").stream().forEach(email -> {
             Email to = new Email(email);
             Mail mail = new Mail(from, subject, to, content);
 
@@ -37,7 +38,6 @@ public class NotificationsController {
             request.setEndpoint("mail/send");
             Response response = null;
             try {
-
                 request.setBody(mail.build());
                 response = sg.api(request);
             } catch (IOException e) {
@@ -47,7 +47,6 @@ public class NotificationsController {
             System.out.println(response.getBody());
             System.out.println(response.getHeaders());
         });
-
 
 
     }
