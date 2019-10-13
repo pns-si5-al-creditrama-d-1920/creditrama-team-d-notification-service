@@ -1,7 +1,6 @@
 package fr.unice.polytech.si5.al.creditrama.teamd.notificationservice;
 
 import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.service.SendNotifConsumer;
-import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.service.SendNotifProducer;
 import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.utils.ConsumerConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

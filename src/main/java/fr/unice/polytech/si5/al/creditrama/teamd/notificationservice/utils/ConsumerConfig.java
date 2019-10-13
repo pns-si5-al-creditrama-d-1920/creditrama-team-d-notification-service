@@ -1,7 +1,6 @@
 package fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.utils;
 
 import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.service.SendNotifConsumer;
-import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.service.SendNotifProducer;
 
 import java.util.Properties;
 
@@ -31,6 +30,7 @@ public class ConsumerConfig {
         return new SendNotifConsumer(props);
     }
 
+    /*
     public static SendNotifProducer configProducer(String groupId, String kafkaBrokers) {
         Properties props = new Properties();
         props.setProperty("group.id", groupId);
@@ -41,5 +41,5 @@ public class ConsumerConfig {
         props.setProperty("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
         return new SendNotifProducer(props);
-    }
+    }*/
 }
