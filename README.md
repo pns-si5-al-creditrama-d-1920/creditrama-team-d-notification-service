@@ -1,1 +1,1 @@
-# creditrama-team-d-notifications-service
+# creditrama-team-d-notification-service
