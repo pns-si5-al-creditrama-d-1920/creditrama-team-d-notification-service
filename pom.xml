@@ -33,7 +33,10 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -115,6 +118,11 @@
             <artifactId>kafka-streams</artifactId>
             <version>${kafka.version}</version>
         </dependency>
+        <!-- Spring Cloud Streams -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -166,26 +174,26 @@
             <id>deployment</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>com.spotify</groupId>
-                        <artifactId>dockerfile-maven-plugin</artifactId>
-                        <version>${dockerfile-maven-version}</version>
-                        <executions>
-                            <execution>
-                                <id>default</id>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <repository>creditrama-d-login-service</repository>
-                            <tag>${project.version}</tag>
-                            <buildArgs>
-                                <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-                            </buildArgs>
-                        </configuration>
-                    </plugin>
+                    <!-- <plugin>
+                          <groupId>com.spotify</groupId>
+                          <artifactId>dockerfile-maven-plugin</artifactId>
+                          <version>${dockerfile-maven-version}</version>
+                          <executions>
+                              <execution>
+                                  <id>default</id>
+                                  <goals>
+                                      <goal>build</goal>
+                                  </goals>
+                              </execution>
+                          </executions>
+                          <configuration>
+                              <repository>creditrama-d-login-service</repository>
+                              <tag>${project.version}</tag>
+                              <buildArgs>
+                                  <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                              </buildArgs>
+                          </configuration>
+                      </plugin>-->
                 </plugins>
             </build>
         </profile>
