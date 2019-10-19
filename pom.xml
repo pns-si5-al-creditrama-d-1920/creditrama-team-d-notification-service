@@ -59,7 +59,6 @@
             <scope>test</scope>
         </dependency>
 
-
         <!-- SpringFox -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -122,6 +121,13 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+        </dependency>
+
+        <!-- Json -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
         </dependency>
     </dependencies>
 
