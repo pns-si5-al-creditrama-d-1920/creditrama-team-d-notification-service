@@ -23,32 +23,32 @@ public class NotificationsController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/testMail")
-    public void testMail(String emails, String message) throws IOException {
+    public void testMail(String emails, String message)  {
         Email from = new Email("noreply@creditrama.com");
 
-        String subject = "Creditrama, la meilleur banque en ligne !";
-        Content content = new Content("text/plain", message);
-
-        SendGrid sg = new SendGrid(sendgridkey);
+        SendGrid sg = new SendGrid("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");
         Stream.of(emails).forEach(email -> {
             Email to = new Email(email);
-            Mail mail = new Mail(from, subject, to, content);
-            //mail.setTemplateId("d-e05e286316694c3a92fd9a8c6e6112e8");
-
-            Request request = new Request();
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            Response response = null;
+            Mail mail = new Mail();
+            mail.setFrom(from);
+            mail.setTemplateId("d-e05e286316694c3a92fd9a8c6e6112e8");
+            Personalization personalization = new Personalization();
+            personalization.addTo(to);
+            mail.addPersonalization(personalization);
             try {
+                Request request = new Request();
+                request.setMethod(Method.POST);
+                request.setEndpoint("mail/send");
+                Response response = null;
                 request.setBody(mail.build());
                 response = sg.api(request);
+                assert response != null;
+                System.out.println(response.getStatusCode());
+                System.out.println(response.getBody());
+                System.out.println(response.getHeaders());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            assert response != null;
-            System.out.println(response.getStatusCode());
-            System.out.println(response.getBody());
-            System.out.println(response.getHeaders());
         });
     }
 }
