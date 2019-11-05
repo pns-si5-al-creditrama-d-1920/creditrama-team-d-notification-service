@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers:
+            - ${KAFKA_BROKER:localhost}
+
+SEND_GRID_APIKEY: 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
+server:
+  port: 8081

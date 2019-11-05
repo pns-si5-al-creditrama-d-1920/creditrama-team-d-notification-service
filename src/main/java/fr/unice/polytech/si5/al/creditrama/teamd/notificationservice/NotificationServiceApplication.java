@@ -19,10 +19,9 @@ public class NotificationServiceApplication {
     @StreamListener("CreditRama.SendNotif")
     public void sendNotif(@Payload String val) throws JSONException {
         JSONObject jsonObj = new JSONObject(val);
-        if (jsonObj.get("email") != null) {
+        if (jsonObj.get("email") != null && jsonObj.get("message") != null) {
             NotificationsController notificationsController = new NotificationsController();
-            notificationsController.testMail(jsonObj.get("email").toString(), "Bonjour,\n Nous vous remercions d'avoir créé votre compte chez CreditRama.\n " +
-                    "Ceci est un mail de confirmation, merci de ne pas répondre.\n \n Cordialement,\n L'équipe CreditRama");
+            notificationsController.testMail(jsonObj.getString("email"), jsonObj.getString("message"));
         }
     }
 

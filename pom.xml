@@ -88,12 +88,6 @@
             <version>4.4.1</version>
         </dependency>
 
-        <!-- Binding for Log4J -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
         <!-- Log4j API and Core implementation required for binding -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -180,7 +174,7 @@
             <id>deployment</id>
             <build>
                 <plugins>
-                    <!-- <plugin>
+                    <plugin>
                           <groupId>com.spotify</groupId>
                           <artifactId>dockerfile-maven-plugin</artifactId>
                           <version>${dockerfile-maven-version}</version>
@@ -193,13 +187,13 @@
                               </execution>
                           </executions>
                           <configuration>
-                              <repository>creditrama-d-login-service</repository>
+                              <repository>creditrama-d-notification-service</repository>
                               <tag>${project.version}</tag>
                               <buildArgs>
                                   <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
                               </buildArgs>
                           </configuration>
-                      </plugin>-->
+                    </plugin>
                 </plugins>
             </build>
         </profile>
