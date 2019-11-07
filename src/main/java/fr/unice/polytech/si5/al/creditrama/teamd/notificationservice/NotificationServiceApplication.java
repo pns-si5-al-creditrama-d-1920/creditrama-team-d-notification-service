@@ -1,6 +1,7 @@
 package fr.unice.polytech.si5.al.creditrama.teamd.notificationservice;
 
 import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.controller.NotificationsController;
+import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.models.Notification;
 import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.service.NotificationProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,12 +18,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 public class NotificationServiceApplication {
 
     @StreamListener("CreditRama.SendNotif")
-    public void sendNotif(@Payload String val) throws JSONException {
-        JSONObject jsonObj = new JSONObject(val);
-        if (jsonObj.get("email") != null && jsonObj.get("message") != null) {
-            NotificationsController notificationsController = new NotificationsController();
-            notificationsController.testMail(jsonObj.getString("email"), jsonObj.getString("message"));
-        }
+    public void sendNotif(@Payload Notification val) {
+        new NotificationsController().testMail(val);
     }
 
     public static void main(String[] args) {

@@ -5,9 +5,9 @@ import com.sendgrid.Request;
 import com.sendgrid.Response;
 import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import com.sendgrid.helpers.mail.objects.Personalization;
+import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.models.Notification;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,17 +23,25 @@ public class NotificationsController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/testMail")
-    public void testMail(String emails, String message)  {
+    public void testMail(Notification notification) throws Exception {
         Email from = new Email("noreply@creditrama.com");
+        if (!notification.hasKey("message")) {
+            throw new Exception("Wrong params : message is needed.");
+        }
 
         SendGrid sg = new SendGrid("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");
-        Stream.of(emails).forEach(email -> {
+        notification.getTo().forEach(email -> {
             Email to = new Email(email);
             Mail mail = new Mail();
             mail.setFrom(from);
-            mail.setTemplateId("d-e05e286316694c3a92fd9a8c6e6112e8");
+            if ("TRANSFER".equals(notification.getAction())) {
+                mail.setTemplateId("d-e05e286316694c3a92fd9a8c6e6112e8");
+            }
             Personalization personalization = new Personalization();
             personalization.addTo(to);
+            notification.getParams().forEach(param -> {
+                personalization.addDynamicTemplateData(param.getKey(), param.getValue());
+            });
             mail.addPersonalization(personalization);
             try {
                 Request request = new Request();
