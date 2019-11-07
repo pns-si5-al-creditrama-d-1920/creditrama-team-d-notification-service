@@ -25,9 +25,6 @@ public class NotificationsController {
     @GetMapping("/testMail")
     public void sendMail(Notification notification) throws Exception {
         Email from = new Email("noreply@creditrama.com");
-        if (!notification.hasKey("message")) {
-            throw new Exception("Wrong params : message is needed.");
-        }
 
         SendGrid sg = new SendGrid("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");
         notification.getTo().forEach(email -> {
