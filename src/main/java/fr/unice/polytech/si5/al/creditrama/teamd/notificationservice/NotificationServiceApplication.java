@@ -5,8 +5,6 @@ import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.models.Noti
 import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.service.NotificationProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.context.annotation.Profile;
@@ -18,8 +16,10 @@ import org.springframework.messaging.handler.annotation.Payload;
 public class NotificationServiceApplication {
 
     @StreamListener("CreditRama.SendNotif")
-    public void sendNotif(@Payload Notification val) {
-        new NotificationsController().testMail(val);
+    public void sendNotif(@Payload Notification val) throws Exception {
+        if (val.getType().equals("EMAIL")) {
+            new NotificationsController().sendMail(val);
+        }
     }
 
     public static void main(String[] args) {

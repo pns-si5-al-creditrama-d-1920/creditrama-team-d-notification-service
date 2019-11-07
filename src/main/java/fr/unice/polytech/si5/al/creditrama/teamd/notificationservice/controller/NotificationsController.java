@@ -23,7 +23,7 @@ public class NotificationsController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/testMail")
-    public void testMail(Notification notification) throws Exception {
+    public void sendMail(Notification notification) throws Exception {
         Email from = new Email("noreply@creditrama.com");
         if (!notification.hasKey("message")) {
             throw new Exception("Wrong params : message is needed.");
