@@ -11,8 +11,8 @@
     <groupId>fr.unice.polytech.si5.al.creditrama.teamd</groupId>
     <artifactId>notification-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>notificationservice</name>
-    <description>notificationservice</description>
+    <name>notification-service</name>
+    <description>NotificationService</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -20,6 +20,8 @@
         <slf4j.version>1.7.22</slf4j.version>
         <log4j.version>2.8</log4j.version>
         <kafka.version>2.2.1</kafka.version>
+        <swagger.version>2.9.2</swagger.version>
+        <dockerfile-maven-version>1.4.12</dockerfile-maven-version>
     </properties>
 
     <dependencies>
@@ -31,7 +33,10 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -54,28 +59,27 @@
             <scope>test</scope>
         </dependency>
 
-
         <!-- SpringFox -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-core</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-bean-validators</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.sendgrid/sendgrid-java -->
         <dependency>
@@ -84,12 +88,6 @@
             <version>4.4.1</version>
         </dependency>
 
-        <!-- Binding for Log4J -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
         <!-- Log4j API and Core implementation required for binding -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -113,6 +111,18 @@
             <artifactId>kafka-streams</artifactId>
             <version>${kafka.version}</version>
         </dependency>
+        <!-- Spring Cloud Streams -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+        </dependency>
+
+        <!-- Json -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -133,7 +143,59 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>deployment</id>
+            <build>
+                <plugins>
+                    <plugin>
+                          <groupId>com.spotify</groupId>
+                          <artifactId>dockerfile-maven-plugin</artifactId>
+                          <version>${dockerfile-maven-version}</version>
+                          <executions>
+                              <execution>
+                                  <id>default</id>
+                                  <goals>
+                                      <goal>build</goal>
+                                  </goals>
+                              </execution>
+                          </executions>
+                          <configuration>
+                              <repository>creditrama-d-notification-service</repository>
+                              <tag>${project.version}</tag>
+                              <buildArgs>
+                                  <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                              </buildArgs>
+                          </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
