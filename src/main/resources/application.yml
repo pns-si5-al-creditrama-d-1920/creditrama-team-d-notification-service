@@ -9,3 +9,12 @@ spring:
 SEND_GRID_APIKEY: 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
 server:
   port: 8081
+security:
+  oauth2:
+    resource:
+      access-token-uri: http://${LOGIN_HOST:localhost}:9191/oauth/token
+      token-info-uri: http://${LOGIN_HOST:localhost}:9191/oauth/check_token
+    client:
+      client-id: mobile
+      client-secret: pin
+service.client: ${SERVICE_CLIENT:http://localhost:8080/}
