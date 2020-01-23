@@ -13,6 +13,7 @@ import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.models.Noti
 import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.models.NotificationMetaData;
 import fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.models.TransactionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.context.annotation.Profile;
@@ -37,6 +38,9 @@ public class EmailService {
         this.clientServiceClient = clientServiceClient;
     }
 
+    @Value("sendgrid.api-key")
+    String sendgridkey;
+
     public void sendMail(TransactionDTO transaction) throws Exception {
         ClientDTO dest = clientServiceClient.getClient(transaction.getDest().getClient());
         Notification notification = new Notification();
@@ -52,7 +56,7 @@ public class EmailService {
     public void sendMail(Notification notification) throws Exception {
         Email from = new Email("noreply@creditrama.com");
 
-        SendGrid sg = new SendGrid("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");
+        SendGrid sg = new SendGrid(sendgridkey);
         notification.getTo().forEach(email -> {
             Email to = new Email(email);
             Mail mail = new Mail();
