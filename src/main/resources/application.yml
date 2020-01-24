@@ -5,7 +5,8 @@ spring:
         binder:
           brokers:
             - ${KAFKA_BROKER:localhost}
-SEND_GRID_APIKEY: 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
+sendgrid:
+  api-key: ${SG_KEY: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}
 server:
   port: ${PORT:8081}
 security:
