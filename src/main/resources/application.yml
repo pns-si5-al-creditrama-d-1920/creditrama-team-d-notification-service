@@ -5,17 +5,15 @@ spring:
         binder:
           brokers:
             - ${KAFKA_BROKER:localhost}
-
-sendgrid:
-  api-key: ${SG_KEY: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}
+SEND_GRID_APIKEY: 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
 server:
   port: ${PORT:8081}
 security:
   oauth2:
     resource:
-      access-token-uri: http://${AUTHORIZATION_HOST:localhost}:${AUTHORIZATION_PORT:9191}/oauth/token
-      token-info-uri: http://${AUTHORIZATION_HOST:localhost}:${AUTHORIZATION_PORT:9191}/oauth/check_token
+      access-token-uri: ${AUTHORIZATION_HOST:http://localhost:9191}/oauth/token
+      token-info-uri: ${AUTHORIZATION_HOST:http://localhost:9191}/oauth/check_token
     client:
       client-id: mobile
       client-secret: pin
-service.client: http://${CLIENT_HOST:localhost}:${CLIENT_PORT:8080}
+service.client: ${SERVICE_CLIENT:http://localhost:8080/}
