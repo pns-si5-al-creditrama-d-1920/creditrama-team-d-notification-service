@@ -17,11 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.context.annotation.Profile;
-import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.util.MimeTypeUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,25 +45,32 @@ public class EmailService {
         notification.getTo().add(dest.getEmail());
         notification.setParams(new ArrayList<>());
         notification.getParams().add(new NotificationMetaData("username", dest.getUsername()));
-        notification.getParams().add(new NotificationMetaData("amount", transaction.getAmount() + ""));
+        notification.getParams().add(new NotificationMetaData("amount", String.valueOf(transaction.getAmount())));
+        if (transaction.getCode() != 0) {
+            notification.getParams().add(new NotificationMetaData("code", String.valueOf(transaction.getCode())));
+        }
+        System.out.println("transaction.getCode() = " + transaction.getCode());
         sendMail(notification);
     }
+
     public void sendMail(Notification notification) throws Exception {
         Email from = new Email("noreply@creditrama.com");
-
+        System.out.println("sendgridkey = " + sendgridkey);
         SendGrid sg = new SendGrid(sendgridkey);
         notification.getTo().forEach(email -> {
             Email to = new Email(email);
             Mail mail = new Mail();
             mail.setFrom(from);
             if ("TRANSFER".equals(notification.getAction())) {
-                mail.setTemplateId("d-e05e286316694c3a92fd9a8c6e6112e8");
+                if (notification.getParams().get(2).getValue().equals("0")) {
+                    mail.setTemplateId("d-4e0d0487000a4d19aa3feeb1d3c4f721");
+                } else {
+                    mail.setTemplateId("d-c097cff0c7c64c38a98469886f2bf407");
+                }
             }
             Personalization personalization = new Personalization();
             personalization.addTo(to);
-            notification.getParams().forEach(param -> {
-                personalization.addDynamicTemplateData(param.getKey(), param.getValue());
-            });
+            notification.getParams().forEach(param -> personalization.addDynamicTemplateData(param.getKey(), param.getValue()));
             mail.addPersonalization(personalization);
             try {
                 Request request = new Request();
