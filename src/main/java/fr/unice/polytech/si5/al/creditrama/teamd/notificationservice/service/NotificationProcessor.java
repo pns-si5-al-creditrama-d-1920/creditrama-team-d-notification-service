@@ -5,7 +5,7 @@ import org.springframework.messaging.SubscribableChannel;
 
 public interface NotificationProcessor {
 
-    public final String EMAIL_TRANSACTION = "CreditRama.SendNotif.Email.Transaction";
+    String EMAIL_TRANSACTION = "CreditRama.SendNotif.Email.Transaction";
 
     @Input(EMAIL_TRANSACTION)
     SubscribableChannel sendNotifInput();

@@ -17,6 +17,7 @@ env:
   BANKACCOUNT_PORT: "8080"
   CLIENT_HOST: "http://creditrama-team-d-client-service-al-team-d.apps.jboss.team"
   CLIENT_PORT: "8080"
+  SG_KEY: "sendgrid-apikey"
 
 # enable this flag to use knative serve to deploy the app
 knativeDeploy: false
