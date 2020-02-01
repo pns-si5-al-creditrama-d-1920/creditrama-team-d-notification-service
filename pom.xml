@@ -130,12 +130,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <jvmArguments>
-                        -Xms64m
-                        -Xmx128m
-                    </jvmArguments>
-                </configuration>
             </plugin>
 
             <plugin>
