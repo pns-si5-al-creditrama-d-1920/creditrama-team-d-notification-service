@@ -33,7 +33,7 @@ public class EmailService {
         this.clientServiceClient = clientServiceClient;
     }
 
-    @Value("sendgrid.api-key")
+    @Value("${sendgrid.api-key}")
     String sendgridkey;
 
     public void sendMail(TransactionDTO transaction) throws Exception {
@@ -49,7 +49,7 @@ public class EmailService {
         if (transaction.getCode() != 0) {
             notification.getParams().add(new NotificationMetaData("code", String.valueOf(transaction.getCode())));
         }
-        System.out.println("transaction.getCode() = " + transaction.getCode());
+        System.out.println("CODE POUR LE TRANSFER :  " + transaction.getCode());
         sendMail(notification);
     }
 
@@ -72,11 +72,11 @@ public class EmailService {
             personalization.addTo(to);
             notification.getParams().forEach(param -> personalization.addDynamicTemplateData(param.getKey(), param.getValue()));
             mail.addPersonalization(personalization);
+            Response response = null;
             try {
                 Request request = new Request();
                 request.setMethod(Method.POST);
                 request.setEndpoint("mail/send");
-                Response response = null;
                 request.setBody(mail.build());
                 response = sg.api(request);
                 assert response != null;
@@ -84,7 +84,7 @@ public class EmailService {
                 System.out.println(response.getBody());
                 System.out.println(response.getHeaders());
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Erreur Sendgrid -> Status code : "+response.getStatusCode());
             }
         });
     }
