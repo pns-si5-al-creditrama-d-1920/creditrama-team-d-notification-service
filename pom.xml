@@ -10,7 +10,7 @@
     </parent>
     <groupId>fr.unice.polytech.si5.al.creditrama.teamd</groupId>
     <artifactId>notification-service</artifactId>
-    <version>0.0.12-SNAPSHOT</version>
+    <version>0.0.15</version>
     <name>notification-service</name>
     <description>NotificationService</description>
 
