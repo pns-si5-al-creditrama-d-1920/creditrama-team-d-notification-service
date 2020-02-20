@@ -1,6 +1,5 @@
 package fr.unice.polytech.si5.al.creditrama.teamd.notificationservice.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Builder
@@ -10,7 +9,6 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class BankAccount {
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Double balance;
 
     private String iban;

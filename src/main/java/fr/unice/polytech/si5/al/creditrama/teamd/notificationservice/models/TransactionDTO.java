@@ -21,5 +21,7 @@ public class TransactionDTO {
 
     private LocalDateTime createdTransaction;
 
+    private TransactionState transactionState;
+
     private short code;
 }
